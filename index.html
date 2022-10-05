@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/Exisiting_generallanduse_2015_merge_Oct012016_1.js"></script>
+        <script src="data/Rivers_and_Creeks_2.js"></script>
+        <script src="data/Road_Network_3.js"></script>
+        <script src="data/Brgy_Bndrycopy_4.js"></script>
+        <script src="data/Brgy_Bndry_5.js"></script>
+        <script src="data/Geotag2_6.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[8.625027791631476,124.94102717029293],[8.63782458207093,124.95579741848935]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleTerrainHybrid_0');
+        map.getPane('pane_GoogleTerrainHybrid_0').style.zIndex = 400;
+        var layer_GoogleTerrainHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleTerrainHybrid_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+        });
+        layer_GoogleTerrainHybrid_0;
+        map.addLayer(layer_GoogleTerrainHybrid_0);
+        function pop_Exisiting_generallanduse_2015_merge_Oct012016_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">LandUse</th>\
+                        <td>' + (feature.properties['LandUse'] !== null ? autolinker.link(feature.properties['LandUse'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Exisiting_generallanduse_2015_merge_Oct012016_1_0(feature) {
+            switch(String(feature.properties['LandUse'])) {
+                case 'Agri-Industrial':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(200,150,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,150,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Agricultural Production':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(0,150,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,150,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Agricultural Protection':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(0,150,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,150,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Forest Production':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(0,100,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,100,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Forest Protection':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(0,100,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,100,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Lakes':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(175,200,225,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(175,200,225,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Settlements':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(255,255,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Special Institutional':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(0,0,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,0,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Special Uses':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(0,100,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,100,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Tourism':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(255,153,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,153,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water Use':
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(100,152,210,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(165,191,221,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,60,146,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Exisiting_generallanduse_2015_merge_Oct012016_1');
+        map.getPane('pane_Exisiting_generallanduse_2015_merge_Oct012016_1').style.zIndex = 401;
+        map.getPane('pane_Exisiting_generallanduse_2015_merge_Oct012016_1').style['mix-blend-mode'] = 'normal';
+        var layer_Exisiting_generallanduse_2015_merge_Oct012016_1 = new L.geoJson(json_Exisiting_generallanduse_2015_merge_Oct012016_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Exisiting_generallanduse_2015_merge_Oct012016_1',
+            layerName: 'layer_Exisiting_generallanduse_2015_merge_Oct012016_1',
+            pane: 'pane_Exisiting_generallanduse_2015_merge_Oct012016_1',
+            onEachFeature: pop_Exisiting_generallanduse_2015_merge_Oct012016_1,
+            style: style_Exisiting_generallanduse_2015_merge_Oct012016_1_0,
+        });
+        bounds_group.addLayer(layer_Exisiting_generallanduse_2015_merge_Oct012016_1);
+        map.addLayer(layer_Exisiting_generallanduse_2015_merge_Oct012016_1);
+        function pop_Rivers_and_Creeks_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LandUse'] !== null ? autolinker.link(feature.properties['LandUse'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Rivers_and_Creeks_2_0() {
+            return {
+                pane: 'pane_Rivers_and_Creeks_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(101,110,196,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Rivers_and_Creeks_2');
+        map.getPane('pane_Rivers_and_Creeks_2').style.zIndex = 402;
+        map.getPane('pane_Rivers_and_Creeks_2').style['mix-blend-mode'] = 'normal';
+        var layer_Rivers_and_Creeks_2 = new L.geoJson(json_Rivers_and_Creeks_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Rivers_and_Creeks_2',
+            layerName: 'layer_Rivers_and_Creeks_2',
+            pane: 'pane_Rivers_and_Creeks_2',
+            onEachFeature: pop_Rivers_and_Creeks_2,
+            style: style_Rivers_and_Creeks_2_0,
+        });
+        bounds_group.addLayer(layer_Rivers_and_Creeks_2);
+        map.addLayer(layer_Rivers_and_Creeks_2);
+        function pop_Road_Network_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Rd_Class'] !== null ? autolinker.link(feature.properties['Rd_Class'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['length'] !== null ? autolinker.link(feature.properties['length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Rd_Name'] !== null ? autolinker.link(feature.properties['Rd_Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['m'] !== null ? autolinker.link(feature.properties['m'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Road_Network_3_0(feature) {
+            switch(String(feature.properties['Rd_Class'])) {
+                case 'Barangay Road':
+                    return {
+                pane: 'pane_Road_Network_3',
+                opacity: 1,
+                color: 'rgba(118,215,173,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'municipal road':
+                    return {
+                pane: 'pane_Road_Network_3',
+                opacity: 1,
+                color: 'rgba(240,96,98,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Municipal Road':
+                    return {
+                pane: 'pane_Road_Network_3',
+                opacity: 1,
+                color: 'rgba(150,208,125,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'National Road':
+                    return {
+                pane: 'pane_Road_Network_3',
+                opacity: 1,
+                color: 'rgba(236,12,12,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Provincial Road':
+                    return {
+                pane: 'pane_Road_Network_3',
+                opacity: 1,
+                color: 'rgba(204,38,185,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Trail Road':
+                    return {
+                pane: 'pane_Road_Network_3',
+                opacity: 1,
+                color: 'rgba(139,113,211,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Road_Network_3',
+                opacity: 1,
+                color: 'rgba(201,177,58,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Road_Network_3');
+        map.getPane('pane_Road_Network_3').style.zIndex = 403;
+        map.getPane('pane_Road_Network_3').style['mix-blend-mode'] = 'normal';
+        var layer_Road_Network_3 = new L.geoJson(json_Road_Network_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Road_Network_3',
+            layerName: 'layer_Road_Network_3',
+            pane: 'pane_Road_Network_3',
+            onEachFeature: pop_Road_Network_3,
+            style: style_Road_Network_3_0,
+        });
+        bounds_group.addLayer(layer_Road_Network_3);
+        map.addLayer(layer_Road_Network_3);
+        function pop_Brgy_Bndrycopy_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BARANGAY'] !== null ? autolinker.link(feature.properties['BARANGAY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AVE_ELEV'] !== null ? autolinker.link(feature.properties['AVE_ELEV'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TOT_RESP'] !== null ? autolinker.link(feature.properties['TOT_RESP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CLAVPART'] !== null ? autolinker.link(feature.properties['CLAVPART'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AREA__SQM_'] !== null ? autolinker.link(feature.properties['AREA__SQM_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ACRES'] !== null ? autolinker.link(feature.properties['ACRES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HECTARES'] !== null ? autolinker.link(feature.properties['HECTARES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HEDGE_NVS'] !== null ? autolinker.link(feature.properties['HEDGE_NVS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PARKLAND'] !== null ? autolinker.link(feature.properties['PARKLAND'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BORDER_PLA'] !== null ? autolinker.link(feature.properties['BORDER_PLA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BPT'] !== null ? autolinker.link(feature.properties['BPT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MONOCROPPI'] !== null ? autolinker.link(feature.properties['MONOCROPPI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DISOLVE'] !== null ? autolinker.link(feature.properties['DISOLVE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Total_HH'] !== null ? autolinker.link(feature.properties['Total_HH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['4_Ps_Beni'] !== null ? autolinker.link(feature.properties['4_Ps_Beni'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['mun'] !== null ? autolinker.link(feature.properties['mun'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Brgy_Bndrycopy_4_0() {
+            return {
+                pane: 'pane_Brgy_Bndrycopy_4',
+                opacity: 1,
+                color: 'rgba(252,229,27,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Brgy_Bndrycopy_4');
+        map.getPane('pane_Brgy_Bndrycopy_4').style.zIndex = 404;
+        map.getPane('pane_Brgy_Bndrycopy_4').style['mix-blend-mode'] = 'normal';
+        var layer_Brgy_Bndrycopy_4 = new L.geoJson(json_Brgy_Bndrycopy_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Brgy_Bndrycopy_4',
+            layerName: 'layer_Brgy_Bndrycopy_4',
+            pane: 'pane_Brgy_Bndrycopy_4',
+            onEachFeature: pop_Brgy_Bndrycopy_4,
+            style: style_Brgy_Bndrycopy_4_0,
+        });
+        bounds_group.addLayer(layer_Brgy_Bndrycopy_4);
+        map.addLayer(layer_Brgy_Bndrycopy_4);
+        function pop_Brgy_Bndry_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BARANGAY'] !== null ? autolinker.link(feature.properties['BARANGAY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AVE_ELEV'] !== null ? autolinker.link(feature.properties['AVE_ELEV'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TOT_RESP'] !== null ? autolinker.link(feature.properties['TOT_RESP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CLAVPART'] !== null ? autolinker.link(feature.properties['CLAVPART'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AREA__SQM_'] !== null ? autolinker.link(feature.properties['AREA__SQM_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ACRES</th>\
+                        <td>' + (feature.properties['ACRES'] !== null ? autolinker.link(feature.properties['ACRES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HECTARES'] !== null ? autolinker.link(feature.properties['HECTARES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HEDGE_NVS'] !== null ? autolinker.link(feature.properties['HEDGE_NVS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PARKLAND'] !== null ? autolinker.link(feature.properties['PARKLAND'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BORDER_PLA'] !== null ? autolinker.link(feature.properties['BORDER_PLA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BPT'] !== null ? autolinker.link(feature.properties['BPT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MONOCROPPI'] !== null ? autolinker.link(feature.properties['MONOCROPPI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DISOLVE'] !== null ? autolinker.link(feature.properties['DISOLVE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Total_HH'] !== null ? autolinker.link(feature.properties['Total_HH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['4_Ps_Beni'] !== null ? autolinker.link(feature.properties['4_Ps_Beni'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['mun'] !== null ? autolinker.link(feature.properties['mun'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Brgy_Bndry_5_0() {
+            return {
+                pane: 'pane_Brgy_Bndry_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Brgy_Bndry_5');
+        map.getPane('pane_Brgy_Bndry_5').style.zIndex = 405;
+        map.getPane('pane_Brgy_Bndry_5').style['mix-blend-mode'] = 'normal';
+        var layer_Brgy_Bndry_5 = new L.geoJson(json_Brgy_Bndry_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Brgy_Bndry_5',
+            layerName: 'layer_Brgy_Bndry_5',
+            pane: 'pane_Brgy_Bndry_5',
+            onEachFeature: pop_Brgy_Bndry_5,
+            style: style_Brgy_Bndry_5_0,
+        });
+        bounds_group.addLayer(layer_Brgy_Bndry_5);
+        map.addLayer(layer_Brgy_Bndry_5);
+        function pop_Geotag2_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? '<img src="images/' + String(feature.properties['Name']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Folder'] !== null ? autolinker.link(feature.properties['Folder'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Geotag2_6_0() {
+            return {
+                pane: 'pane_Geotag2_6',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(183,72,75,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Geotag2_6');
+        map.getPane('pane_Geotag2_6').style.zIndex = 406;
+        map.getPane('pane_Geotag2_6').style['mix-blend-mode'] = 'normal';
+        var layer_Geotag2_6 = new L.geoJson(json_Geotag2_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Geotag2_6',
+            layerName: 'layer_Geotag2_6',
+            pane: 'pane_Geotag2_6',
+            onEachFeature: pop_Geotag2_6,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Geotag2_6_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Geotag2_6);
+        map.addLayer(layer_Geotag2_6);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Geotag2_6.png" /> Geotag2': layer_Geotag2_6,'<img src="legend/Brgy_Bndry_5.png" /> Brgy_Bndry': layer_Brgy_Bndry_5,'<img src="legend/Brgy_Bndrycopy_4.png" /> Brgy_Bndry copy': layer_Brgy_Bndrycopy_4,'Road_Network<br /><table><tr><td style="text-align: center;"><img src="legend/Road_Network_3_BarangayRoad0.png" /></td><td>Barangay Road</td></tr><tr><td style="text-align: center;"><img src="legend/Road_Network_3_municipalroad1.png" /></td><td>municipal road</td></tr><tr><td style="text-align: center;"><img src="legend/Road_Network_3_MunicipalRoad2.png" /></td><td>Municipal Road</td></tr><tr><td style="text-align: center;"><img src="legend/Road_Network_3_NationalRoad3.png" /></td><td>National Road</td></tr><tr><td style="text-align: center;"><img src="legend/Road_Network_3_ProvincialRoad4.png" /></td><td>Provincial Road</td></tr><tr><td style="text-align: center;"><img src="legend/Road_Network_3_TrailRoad5.png" /></td><td>Trail Road</td></tr><tr><td style="text-align: center;"><img src="legend/Road_Network_3_6.png" /></td><td></td></tr></table>': layer_Road_Network_3,'<img src="legend/Rivers_and_Creeks_2.png" /> Rivers_and_Creeks': layer_Rivers_and_Creeks_2,'Exisiting_generallanduse_2015_merge_Oct012016<br /><table><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_AgriIndustrial0.png" /></td><td>Agri-Industrial</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_AgriculturalProduction1.png" /></td><td>Agricultural Production</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_AgriculturalProtection2.png" /></td><td>Agricultural Protection</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_ForestProduction3.png" /></td><td>Forest Production</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_ForestProtection4.png" /></td><td>Forest Protection</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_Lakes5.png" /></td><td>Lakes</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_Settlements6.png" /></td><td>Settlements</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_SpecialInstitutional7.png" /></td><td>Special Institutional</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_SpecialUses8.png" /></td><td>Special Uses</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_Tourism9.png" /></td><td>Tourism</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_WaterUse10.png" /></td><td>Water Use</td></tr><tr><td style="text-align: center;"><img src="legend/Exisiting_generallanduse_2015_merge_Oct012016_1_11.png" /></td><td></td></tr></table>': layer_Exisiting_generallanduse_2015_merge_Oct012016_1,"Google Terrain Hybrid": layer_GoogleTerrainHybrid_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_Brgy_Bndry_5.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['BARANGAY'] !== null?String('<div style="color: #ffffff; font-size: 10pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['BARANGAY']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Brgy_Bndry_5'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_Brgy_Bndrycopy_4,layer_Brgy_Bndry_5]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Brgy_Bndrycopy_4,layer_Brgy_Bndry_5]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Brgy_Bndrycopy_4,layer_Brgy_Bndry_5]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Brgy_Bndrycopy_4,layer_Brgy_Bndry_5]);
+        });
+        </script>
+    </body>
+</html>

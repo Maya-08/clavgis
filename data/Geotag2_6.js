@@ -1,0 +1,1 @@
+var json_Geotag2_6 = {"type":"FeatureCollection","name":"Geotag2_6","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"Name":"Viewdeck","Folder":"D:\\LGU CLAVERIA\\PROJECTS\\2022\\RLGM 10.3-5.22 - SEMINAR\\m.jpg"},"geometry":{"type":"Point","coordinates":[124.946859187992985,8.633333556983139]}}]}
